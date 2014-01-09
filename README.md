@@ -1,9 +1,33 @@
-# node webot [![Build Status](https://api.travis-ci.org/node-webot/webot.png?branch=master)](https://travis-ci.org/node-webot/webot)
+# node webot [![Build Status](https://api.travis-ci.org/rogerz/webot.png?branch=master)](https://travis-ci.org/rogerz/webot)
 
 A web robot for node.js.
 
 With simple rules based on RegExp and custom functions,
 you can easily run a robot as web service.
+
+## Enhancement in this fork
+
+### delegation
+
+```javascript
+var webot = require('webot');
+
+webot1 = new webot.Webot(),
+webot2 = new webot.Webot();
+
+webot1.waitBot('webot2', webot2);
+webot1.set('hello', 'webot1');
+webot1.set('webot2', function (info) {
+  info.delegate('webot2');
+  return 'to webot2';
+});
+
+webot2.set('hello', 'webot2');
+webot2.set('exit', function (info) {
+  info.delegate();
+  return 'to parent';
+});
+```
 
 ## Quick Start
 
